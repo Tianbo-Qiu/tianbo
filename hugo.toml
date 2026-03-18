@@ -1,0 +1,9 @@
+baseURL = 'https://tianboqiu.com/'
+languageCode = 'en-us'
+title = 'Tianbo'
+
+[params]
+  name = '邱天博 (Tianbo Qiu)'
+  tags = '古法编程 | decaf | Go 学习中'
+  github = 'https://github.com/Tianbo-Qiu'
+  email = 'tianboqiu@gmail.com'
