@@ -1,6 +1,9 @@
 baseURL = 'https://tianboqiu.com/'
-languageCode = 'en-us'
+languageCode = 'zh-Hans'
 title = 'Tianbo'
+
+# 中文排版与断行
+hasCJKLanguage = true
 
 [params]
   name = '邱天博 (Tianbo Qiu)'
