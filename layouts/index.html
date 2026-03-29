@@ -1,300 +1,415 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hans">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ .Site.Title }}</title>
-  <link rel="icon" type="image/png" href="/images/avatar.png">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { -webkit-text-size-adjust: 100%; }
-    body {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-      min-height: 100vh;
-      background: #fafafa;
-      color: #1a1a1a;
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-    }
-    a {
-      color: #0b57d0;
-      text-decoration: none;
-    }
-    a:hover { text-decoration: underline; text-underline-offset: 2px; }
-    a:focus-visible,
-    button:focus-visible {
-      outline: 2px solid #0b57d0;
-      outline-offset: 2px;
-    }
-    .wrap {
-      max-width: 40rem;
-      margin: 0 auto;
-      padding: clamp(2rem, 5vw, 2.75rem) clamp(1.25rem, 4vw, 1.75rem) 4.5rem;
-    }
-    .intro {
-      text-align: left;
-      margin-bottom: 0;
-      padding-bottom: 2.1rem;
-    }
-    .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 1.25rem;
-      display: block;
-      transition: transform 0.25s ease;
-      animation: breathe 2.5s ease-in-out infinite;
-    }
-    .avatar:hover {
-      animation: breathe-hover 2.5s ease-in-out infinite;
-    }
-    @keyframes breathe {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-2px); }
-    }
-    @keyframes breathe-hover {
-      0%, 100% { transform: scale(1.04) translateY(0); }
-      50% { transform: scale(1.04) translateY(-3px); }
-    }
-    .name {
-      font-size: clamp(1.25rem, 2.5vw, 1.4rem);
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      line-height: 1.3;
-      margin-bottom: 0.5rem;
-    }
-    .tags {
-      color: #5c5c5c;
-      font-size: 0.9rem;
-      line-height: 1.55;
-      margin-bottom: 1rem;
-    }
-    .links {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.45rem;
-      margin-top: 0.2rem;
-    }
-    .links-item {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.42em;
-      padding: 0.38em 0.8em;
-      font-size: 0.8125rem;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      line-height: 1.25;
-      color: #3a3a3a;
-      text-decoration: none;
-      background: #fff;
-      border: 1px solid #e4e4e4;
-      border-radius: 5px;
-      cursor: pointer;
-      font-family: inherit;
-      transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
-    }
-    .links-item-icon {
-      display: inline-flex;
-      line-height: 0;
-      flex-shrink: 0;
-    }
-    .links-item-icon svg {
-      width: 1.05em;
-      height: 1.05em;
-      display: block;
-    }
-    .links-item:hover {
-      color: #111;
-      border-color: #cfcfcf;
-      background: #f7f7f7;
-      text-decoration: none;
-    }
-    #notes {
-      margin: 0;
-      padding-top: 2rem;
-      border-top: 1px solid #e8e8e8;
-    }
-    .notes-label {
-      display: block;
-      margin: 0 0 1rem;
-      padding: 0;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: #3a3a3a;
-      letter-spacing: 0.16em;
-      line-height: 1.4;
-      text-transform: none;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    }
-    .note {
-      margin-bottom: 1.35rem;
-      padding-bottom: 1.35rem;
-      border-bottom: 1px solid #e8e8e8;
-    }
-    .note:last-child {
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: none;
-    }
-    .note-head {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.35rem 1rem;
-      margin-bottom: 0.45rem;
-    }
-    .note-meta {
-      font-size: 0.72rem;
-      line-height: 1;
-      color: #9a9a9a;
-      margin: 0;
-      flex-shrink: 0;
-      font-variant-numeric: tabular-nums;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", sans-serif;
-    }
-    .note-meta a {
-      color: inherit;
-      text-decoration: none;
-    }
-    .note-meta a:hover {
-      color: #0b57d0;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-    .note-card-title {
-      margin: 0;
-      min-width: 0;
-      flex: 1 1 auto;
-      font-size: 1.22rem;
-      font-weight: 600;
-      line-height: 1.3;
-      letter-spacing: 0.02em;
-      font-family: ui-serif, "New York", "Iowan Old Style", "Palatino Linotype", Palatino, "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong", "SimSun", Georgia, serif;
-    }
-    .note-card-title a {
-      color: #141414;
-      text-decoration: none;
-    }
-    .note-card-title a:hover {
-      color: #0b57d0;
-    }
-    .note .content {
-      font-family: ui-serif, "New York", "Iowan Old Style", "Palatino Linotype", Palatino, "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong", "SimSun", Georgia, serif;
-      line-height: 1.74;
-      color: #262626;
-      font-size: 1rem;
-      letter-spacing: 0.01em;
-    }
-    .note .content p { margin-bottom: 0.85em; }
-    .note .content p:last-child { margin-bottom: 0; }
-    .note .content ul, .note .content ol {
-      margin: 0.5em 0 1em 1.25em;
-    }
-    .note .content li { margin-bottom: 0.35em; }
-    .note .content strong {
-      font-weight: 600;
-      color: #111;
-    }
-    .note .content h3 {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", sans-serif;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: #6a6a6a;
-      letter-spacing: 0.1em;
-      margin: 0 0 0.5rem;
-      line-height: 1.35;
-    }
-    .note .content h3:not(:first-child) {
-      margin-top: 1.35rem;
-    }
-    .toast {
-      position: fixed;
-      padding: 0.5rem 1rem;
-      background: #1a1a1a;
-      color: #fff;
-      font-size: 0.875rem;
-      border-radius: 6px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      z-index: 9999;
-      visibility: hidden;
-      opacity: 0;
-      transition: visibility 0.2s, opacity 0.2s;
-      pointer-events: none;
-      white-space: nowrap;
-    }
-    .toast.show {
-      visibility: visible;
-      opacity: 1;
-    }
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <header class="intro">
-      <img class="avatar" src="/images/avatar.png" alt="Tianbo">
-      <h1 class="name">{{ .Site.Params.name }}</h1>
-      <p class="tags">{{ .Site.Params.tags }}</p>
-      <div class="links">
-        <a class="links-item" href="{{ .Site.Params.github }}" rel="me noopener noreferrer" target="_blank"><span class="links-item-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span>GitHub</a>
-        <button type="button" class="links-item" data-email="{{ .Site.Params.email }}" id="copy-email"><span class="links-item-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>Email</button>
-      </div>
-    </header>
-
-    {{ $notes := where .Site.RegularPages "Section" "notes" }}
-    {{ if $notes }}
-    <section id="notes" aria-label="笔记">
-      <p class="notes-label">笔记</p>
-      {{ range $notes.ByDate.Reverse }}
-      <article class="note">
-        <header class="note-head">
-          <h2 class="note-card-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-          <p class="note-meta"><a href="{{ .RelPermalink }}">{{ if .Date }}{{ .Date.Format "2006-01-02" }}{{ else }}链接{{ end }}</a></p>
-        </header>
-        <div class="content">
-          {{ .Content }}
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ .Site.Title }}</title>
+    <link rel="icon" type="image/png" href="/images/avatar.png" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          "PingFang SC",
+          "Hiragino Sans GB",
+          "Microsoft YaHei",
+          sans-serif;
+        min-height: 100vh;
+        background: #fafafa;
+        color: #1a1a1a;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: #0b57d0;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      a:focus-visible,
+      button:focus-visible {
+        outline: 2px solid #0b57d0;
+        outline-offset: 2px;
+      }
+      .wrap {
+        max-width: 40rem;
+        margin: 0 auto;
+        padding: clamp(2rem, 5vw, 2.75rem) clamp(1.25rem, 4vw, 1.75rem) 4.5rem;
+      }
+      .intro {
+        text-align: left;
+        margin-bottom: 0;
+        padding-bottom: 2.1rem;
+      }
+      .avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 1.25rem;
+        display: block;
+        transition: transform 0.25s ease;
+        animation: breathe 2.5s ease-in-out infinite;
+      }
+      .avatar:hover {
+        animation: breathe-hover 2.5s ease-in-out infinite;
+      }
+      @keyframes breathe {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-2px);
+        }
+      }
+      @keyframes breathe-hover {
+        0%,
+        100% {
+          transform: scale(1.04) translateY(0);
+        }
+        50% {
+          transform: scale(1.04) translateY(-3px);
+        }
+      }
+      .name {
+        font-size: clamp(1.25rem, 2.5vw, 1.4rem);
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.3;
+        margin-bottom: 0.5rem;
+      }
+      .tags {
+        color: #5c5c5c;
+        font-size: 0.9rem;
+        line-height: 1.55;
+        margin-bottom: 1rem;
+      }
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.45rem;
+        margin-top: 0.2rem;
+      }
+      .links-item {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.42em;
+        padding: 0.38em 0.8em;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        line-height: 1.25;
+        color: #3a3a3a;
+        text-decoration: none;
+        background: #fff;
+        border: 1px solid #e4e4e4;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: inherit;
+        transition:
+          border-color 0.15s ease,
+          color 0.15s ease,
+          background 0.15s ease;
+      }
+      .links-item-icon {
+        display: inline-flex;
+        line-height: 0;
+        flex-shrink: 0;
+      }
+      .links-item-icon svg {
+        width: 1.05em;
+        height: 1.05em;
+        display: block;
+      }
+      .links-item:hover {
+        color: #111;
+        border-color: #cfcfcf;
+        background: #f7f7f7;
+        text-decoration: none;
+      }
+      #notes {
+        margin: 0;
+        padding-top: 2rem;
+        border-top: 1px solid #e8e8e8;
+      }
+      .notes-label {
+        display: block;
+        margin: 0 0 1rem;
+        padding: 0;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: #3a3a3a;
+        letter-spacing: 0.16em;
+        line-height: 1.4;
+        text-transform: none;
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          "PingFang SC",
+          "Hiragino Sans GB",
+          "Microsoft YaHei",
+          sans-serif;
+      }
+      .note {
+        margin-bottom: 1.35rem;
+        padding-bottom: 1.35rem;
+        border-bottom: 1px solid #e8e8e8;
+      }
+      .note:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+      .note-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.35rem 1rem;
+        margin-bottom: 0.45rem;
+      }
+      .note-meta {
+        font-size: 0.72rem;
+        line-height: 1;
+        color: #9a9a9a;
+        margin: 0;
+        flex-shrink: 0;
+        font-variant-numeric: tabular-nums;
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          "PingFang SC",
+          sans-serif;
+      }
+      .note-meta a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .note-meta a:hover {
+        color: #0b57d0;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .note-card-title {
+        margin: 0;
+        min-width: 0;
+        flex: 1 1 auto;
+        font-size: 1.22rem;
+        font-weight: 600;
+        line-height: 1.3;
+        letter-spacing: 0.02em;
+        font-family:
+          ui-serif, "New York", "Iowan Old Style", "Palatino Linotype",
+          Palatino, "Songti SC", "Noto Serif SC", "Source Han Serif SC",
+          "STSong", "SimSun", Georgia, serif;
+      }
+      .note-card-title a {
+        color: #141414;
+        text-decoration: none;
+      }
+      .note-card-title a:hover {
+        color: #0b57d0;
+      }
+      .note .content {
+        font-family:
+          ui-serif, "New York", "Iowan Old Style", "Palatino Linotype",
+          Palatino, "Songti SC", "Noto Serif SC", "Source Han Serif SC",
+          "STSong", "SimSun", Georgia, serif;
+        line-height: 1.74;
+        color: #262626;
+        font-size: 1rem;
+        letter-spacing: 0.01em;
+      }
+      .note .content p {
+        margin-bottom: 0.85em;
+      }
+      .note .content p:last-child {
+        margin-bottom: 0;
+      }
+      .note .content ul,
+      .note .content ol {
+        margin: 0.5em 0 1em 1.25em;
+      }
+      .note .content li {
+        margin-bottom: 0.35em;
+      }
+      .note .content strong {
+        font-weight: 600;
+        color: #111;
+      }
+      .note .content h3 {
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          "PingFang SC",
+          "Hiragino Sans GB",
+          sans-serif;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: #6a6a6a;
+        letter-spacing: 0.1em;
+        margin: 0 0 0.5rem;
+        line-height: 1.35;
+      }
+      .note .content h3:not(:first-child) {
+        margin-top: 1.35rem;
+      }
+      .toast {
+        position: fixed;
+        padding: 0.5rem 1rem;
+        background: #1a1a1a;
+        color: #fff;
+        font-size: 0.875rem;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 9999;
+        visibility: hidden;
+        opacity: 0;
+        transition:
+          visibility 0.2s,
+          opacity 0.2s;
+        pointer-events: none;
+        white-space: nowrap;
+      }
+      .toast.show {
+        visibility: visible;
+        opacity: 1;
+      }
+    </style>
+    {{ partial "vercel-analytics.html" . }}
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="intro">
+        <img class="avatar" src="/images/avatar.png" alt="Tianbo" />
+        <h1 class="name">{{ .Site.Params.name }}</h1>
+        <p class="tags">{{ .Site.Params.tags }}</p>
+        <div class="links">
+          <a
+            class="links-item"
+            href="{{ .Site.Params.github }}"
+            rel="me noopener noreferrer"
+            target="_blank"
+            ><span class="links-item-icon" aria-hidden="true"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+                /></svg></span
+            >GitHub</a
+          >
+          <button
+            type="button"
+            class="links-item"
+            data-email="{{ .Site.Params.email }}"
+            id="copy-email"
+          >
+            <span class="links-item-icon" aria-hidden="true"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                />
+                <polyline points="22,6 12,13 2,6" /></svg></span
+            >Email
+          </button>
         </div>
-      </article>
+      </header>
+
+      {{ $notes := where .Site.RegularPages "Section" "notes" }} {{ if $notes }}
+      <section id="notes" aria-label="笔记">
+        <p class="notes-label">笔记</p>
+        {{ range $notes.ByDate.Reverse }}
+        <article class="note">
+          <header class="note-head">
+            <h2 class="note-card-title">
+              <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+            </h2>
+            <p class="note-meta">
+              <a href="{{ .RelPermalink }}"
+                >{{ if .Date }}{{ .Date.Format "2006-01-02" }}{{ else }}链接{{
+                end }}</a
+              >
+            </p>
+          </header>
+          <div class="content">{{ .Content }}</div>
+        </article>
+        {{ end }}
+      </section>
       {{ end }}
-    </section>
-    {{ end }}
-  </div>
-  <div class="toast" id="toast" aria-live="polite">已复制</div>
-  <script>
-    document.getElementById('copy-email').addEventListener('click', function(e) {
-      var email = this.dataset.email;
-      var toast = document.getElementById('toast');
-      var btn = this.getBoundingClientRect();
-      function showToast() {
-        toast.style.left = (btn.right + 12) + 'px';
-        toast.style.top = (btn.top + btn.height / 2 - toast.offsetHeight / 2) + 'px';
-        toast.classList.add('show');
-        setTimeout(function() { toast.classList.remove('show'); }, 1500);
-      }
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(email).then(showToast).catch(function() {
-          fallbackCopy(email, showToast);
+    </div>
+    <div class="toast" id="toast" aria-live="polite">已复制</div>
+    <script>
+      document
+        .getElementById("copy-email")
+        .addEventListener("click", function (e) {
+          var email = this.dataset.email;
+          var toast = document.getElementById("toast");
+          var btn = this.getBoundingClientRect();
+          function showToast() {
+            toast.style.left = btn.right + 12 + "px";
+            toast.style.top =
+              btn.top + btn.height / 2 - toast.offsetHeight / 2 + "px";
+            toast.classList.add("show");
+            setTimeout(function () {
+              toast.classList.remove("show");
+            }, 1500);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard
+              .writeText(email)
+              .then(showToast)
+              .catch(function () {
+                fallbackCopy(email, showToast);
+              });
+          } else {
+            fallbackCopy(email, showToast);
+          }
         });
-      } else {
-        fallbackCopy(email, showToast);
+      function fallbackCopy(text, onSuccess) {
+        var textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand("copy");
+          onSuccess();
+        } catch (e) {}
+        document.body.removeChild(textarea);
       }
-    });
-    function fallbackCopy(text, onSuccess) {
-      var textarea = document.createElement('textarea');
-      textarea.value = text;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      document.body.appendChild(textarea);
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        onSuccess();
-      } catch (e) {}
-      document.body.removeChild(textarea);
-    }
-  </script>
-</body>
+    </script>
+  </body>
 </html>

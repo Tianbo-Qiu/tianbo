@@ -2,6 +2,11 @@ baseURL = 'https://tianboqiu.com/'
 languageCode = 'zh-Hans'
 title = 'Tianbo'
 
+# 允许模板读取 VERCEL，用于仅在 Vercel 构建时注入 Analytics（见 layouts/partials/vercel-analytics.html）
+[security]
+  [security.funcs]
+    getenv = ['^HUGO_', '^CI$', '^VERCEL$']
+
 # 中文排版与断行
 hasCJKLanguage = true
 
