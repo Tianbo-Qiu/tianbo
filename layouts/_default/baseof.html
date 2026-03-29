@@ -7,49 +7,72 @@
   <link rel="icon" type="image/png" href="/images/avatar.png">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
     body {
-      font-family: system-ui, -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
       background: #fafafa;
       color: #1a1a1a;
-      line-height: 1.6;
+      line-height: 1.65;
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
     a {
-      color: #0066cc;
+      color: #0b57d0;
       text-decoration: none;
     }
-    a:hover { text-decoration: underline; }
+    a:hover { text-decoration: underline; text-underline-offset: 2px; }
+    a:focus-visible {
+      outline: 2px solid #0b57d0;
+      outline-offset: 2px;
+    }
     .wrap {
-      max-width: 38rem;
+      max-width: 40rem;
       margin: 0 auto;
-      padding: 2rem 1.5rem 3rem;
+      padding: clamp(1.75rem, 4vw, 2.25rem) clamp(1.25rem, 4vw, 1.75rem) 3.5rem;
     }
     .nav {
       font-size: 0.875rem;
-      color: #666;
+      color: #5c5c5c;
       margin-bottom: 2.5rem;
     }
-    .nav a { color: #666; }
-    .nav a:hover { color: #0066cc; }
+    .nav a { color: #5c5c5c; }
+    .nav a:hover { color: #0b57d0; }
     .nav-sep { margin: 0 0.35rem; color: #bbb; }
     .page-title {
-      font-size: 1.5rem;
+      font-size: 1.15rem;
       font-weight: 600;
-      margin-bottom: 0.35rem;
+      letter-spacing: 0.1em;
+      color: #2a2a2a;
+      margin-bottom: 0.65rem;
+    }
+    .page-title--kicker {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #3a3a3a;
+      letter-spacing: 0.16em;
+      line-height: 1.4;
+      margin-bottom: 1rem;
     }
     .section-desc {
       color: #666;
-      font-size: 0.9rem;
-      margin-bottom: 2rem;
+      font-size: 0.875rem;
+      line-height: 1.55;
+      margin-bottom: 1.25rem;
     }
     .note-list {
       list-style: none;
     }
     .note-list li {
-      margin-bottom: 0.85rem;
+      margin-bottom: 0.45rem;
+      line-height: 1.45;
     }
     .note-list a {
-      font-size: 1rem;
+      font-size: 0.98rem;
+      font-family: ui-serif, "New York", "Songti SC", "Noto Serif SC", "STSong", Georgia, serif;
+      color: #262626;
+    }
+    .note-list a:hover {
+      color: #0b57d0;
     }
     .note-meta {
       color: #888;
@@ -57,16 +80,20 @@
       margin-left: 0.5rem;
     }
     .article h1 {
-      font-size: 1.35rem;
+      font-size: clamp(1.25rem, 2.5vw, 1.4rem);
       font-weight: 600;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.35rem;
       line-height: 1.35;
+      letter-spacing: -0.02em;
     }
     .article .content {
-      line-height: 1.75;
-      color: #1a1a1a;
+      font-family: ui-serif, "New York", "Iowan Old Style", "Palatino Linotype", Palatino, "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong", "SimSun", Georgia, serif;
+      line-height: 1.74;
+      color: #262626;
+      font-size: 1rem;
+      letter-spacing: 0.01em;
     }
-    .article .content p { margin-bottom: 1em; }
+    .article .content p { margin-bottom: 0.85em; }
     .article .content p:last-child { margin-bottom: 0; }
     .article .content ul, .article .content ol {
       margin: 0.5em 0 1em 1.25em;
@@ -77,14 +104,16 @@
       color: #111;
     }
     .article .content h3 {
-      font-size: 0.8rem;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", sans-serif;
+      font-size: 0.72rem;
       font-weight: 600;
-      color: #888;
-      letter-spacing: 0.04em;
-      margin: 0 0 0.75rem;
+      color: #6a6a6a;
+      letter-spacing: 0.1em;
+      margin: 0 0 0.5rem;
+      line-height: 1.35;
     }
     .article .content h3:not(:first-child) {
-      margin-top: 2rem;
+      margin-top: 1.35rem;
     }
     .article .content h3 + p { margin-top: 0; }
   </style>
