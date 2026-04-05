@@ -6,8 +6,8 @@
   <ul class="note-list">
     {{ range .Pages.ByDate.Reverse }}
       <li>
-        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
         {{ if .Date }}<span class="note-meta">{{ .Date.Format "2006-01-02" }}</span>{{ end }}
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
       </li>
     {{ end }}
   </ul>

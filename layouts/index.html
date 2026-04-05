@@ -47,7 +47,7 @@
       .wrap {
         max-width: 40rem;
         margin: 0 auto;
-        padding: clamp(2rem, 5vw, 2.75rem) clamp(1.25rem, 4vw, 1.75rem) 4.5rem;
+        padding: clamp(2rem, 5vw, 2.75rem) clamp(1.25rem, 4vw, 1.75rem) 4.25rem;
       }
       .intro {
         text-align: left;
@@ -151,19 +151,57 @@
       }
       .notes-label {
         display: block;
-        margin: 0 0 1rem;
+        margin: 0 0 0.75rem;
         padding: 0;
-        font-size: 0.8125rem;
+        font-size: 0.75rem;
         font-weight: 600;
-        color: #3a3a3a;
-        letter-spacing: 0.16em;
-        line-height: 1.4;
+        color: #4a4a4a;
+        letter-spacing: 0.14em;
+        line-height: 1.35;
         text-transform: none;
         font-family: var(--font-sans);
       }
+      a.notes-label--link {
+        color: inherit;
+        text-decoration: none;
+        width: fit-content;
+      }
+      a.notes-label--link:hover {
+        color: #0b57d0;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .home-section-head {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 0.35rem 0.75rem;
+        margin-bottom: 0.75rem;
+      }
+      .home-section-head .notes-label,
+      .home-section-head a.notes-label--link,
+      .home-section-head p.notes-label {
+        margin-bottom: 0;
+      }
+      .home-section-more {
+        font-size: 0.72rem;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        color: #8e8e8e;
+        text-decoration: none;
+        font-family: var(--font-sans);
+        flex-shrink: 0;
+        font-variant-numeric: tabular-nums;
+      }
+      .home-section-more:hover {
+        color: #0b57d0;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
       .note {
-        margin-bottom: 1.35rem;
-        padding-bottom: 1.35rem;
+        margin-bottom: 1.2rem;
+        padding-bottom: 1.2rem;
         border-bottom: 1px solid #e8e8e8;
       }
       .note:last-child {
@@ -174,10 +212,10 @@
       .note-head {
         display: flex;
         flex-wrap: wrap;
-        align-items: center;
+        align-items: baseline;
         justify-content: space-between;
-        gap: 0.35rem 1rem;
-        margin-bottom: 0.45rem;
+        gap: 0.25rem 1rem;
+        margin-bottom: 0.5rem;
       }
       .note-meta {
         font-size: 0.72rem;
@@ -216,13 +254,14 @@
       }
       .note .content {
         font-family: var(--font-serif);
-        line-height: 1.74;
+        line-height: 1.68;
         color: #262626;
-        font-size: 1rem;
+        font-size: 0.98rem;
         letter-spacing: 0.01em;
+        overflow-wrap: break-word;
       }
       .note .content p {
-        margin-bottom: 0.85em;
+        margin-bottom: 0.72em;
       }
       .note .content p:last-child {
         margin-bottom: 0;
@@ -252,7 +291,7 @@
       }
       #today {
         margin: 0;
-        padding-top: 1.5rem;
+        padding-top: 1.35rem;
         border-top: 1px solid #e8e8e8;
       }
       .today-stream {
@@ -263,14 +302,14 @@
         content: '';
         position: absolute;
         left: 0;
-        top: 0.55rem;
+        top: 0.42rem;
         bottom: 0;
         width: 1px;
         background: #e8e8e8;
       }
       .today-entry {
         position: relative;
-        margin-bottom: 1.35rem;
+        margin-bottom: 0.7rem;
       }
       .today-entry:last-child {
         margin-bottom: 0;
@@ -279,29 +318,53 @@
         content: '';
         position: absolute;
         left: calc(-1rem - 3px);
-        top: 0.48rem;
+        top: 0.34rem;
         width: 7px;
         height: 7px;
         border-radius: 50%;
-        background: #d0d0d0;
+        background: #c8c8c8;
         box-shadow: 0 0 0 2px #fafafa;
       }
+      .today-entry-inner {
+        display: grid;
+        grid-template-columns: 4.65rem minmax(0, 1fr);
+        gap: 0.35rem 0.65rem;
+        align-items: start;
+      }
+      @media (max-width: 22rem) {
+        .today-entry-inner {
+          grid-template-columns: 1fr;
+          gap: 0.12rem 0;
+        }
+      }
       .today-date {
-        font-size: 0.72rem;
-        color: #9a9a9a;
+        font-size: 0.7rem;
+        color: #8e8e8e;
         font-variant-numeric: tabular-nums;
-        margin-bottom: 0.35rem;
+        margin: 0;
+        padding-top: 0.14em;
+        line-height: 1.4;
         font-family: var(--font-sans);
+      }
+      .today-date a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .today-date a:hover {
+        color: #0b57d0;
+        text-decoration: underline;
+        text-underline-offset: 2px;
       }
       .today-entry .content {
         font-family: var(--font-serif);
-        line-height: 1.74;
+        line-height: 1.48;
         color: #262626;
-        font-size: 1rem;
+        font-size: 0.94rem;
         letter-spacing: 0.01em;
+        overflow-wrap: break-word;
       }
       .today-entry .content p {
-        margin-bottom: 0.85em;
+        margin-bottom: 0.4em;
       }
       .today-entry .content p:last-child {
         margin-bottom: 0;
@@ -378,25 +441,53 @@
         </div>
       </header>
 
-      {{ $today := where .Site.RegularPages "Section" "today" }}
-      {{ if $today }}
+      {{ $todaySection := site.GetPage "section" "today" }}
+      {{ $notesSection := site.GetPage "section" "notes" }}
+      {{ $todayAll := where .Site.RegularPages "Section" "today" }}
+      {{ if $todayAll }}
       <section id="today" aria-label="今日">
-        <p class="notes-label">今日</p>
+        <div class="home-section-head">
+          {{ with $todaySection }}
+          <a class="notes-label notes-label--link" href="{{ .RelPermalink }}">今日</a>
+          {{ if gt (len $todayAll) 2 }}
+          <a class="home-section-more" href="{{ .RelPermalink }}"
+            >还有 {{ sub (len $todayAll) 2 }} 条</a
+          >
+          {{ end }}
+          {{ else }}
+          <p class="notes-label">今日</p>
+          {{ end }}
+        </div>
         <div class="today-stream">
-          {{ range $today.ByDate.Reverse }}
+          {{ range first 2 $todayAll.ByDate.Reverse }}
           <div class="today-entry">
-            <p class="today-date">{{ .Date.Format "2006-01-02" }}</p>
-            <div class="content">{{ .Content }}</div>
+            <div class="today-entry-inner">
+              <p class="today-date">
+                <a href="{{ .RelPermalink }}">{{ .Date.Format "2006-01-02" }}</a>
+              </p>
+              <div class="content">{{ .Content }}</div>
+            </div>
           </div>
           {{ end }}
         </div>
       </section>
       {{ end }}
 
-      {{ $notes := where .Site.RegularPages "Section" "notes" }} {{ if $notes }}
+      {{ $notesAll := where .Site.RegularPages "Section" "notes" }} {{ if $notesAll }}
       <section id="notes" aria-label="笔记">
-        <p class="notes-label">笔记</p>
-        {{ range $notes.ByDate.Reverse }}
+        <div class="home-section-head">
+          {{ with $notesSection }}
+          <a class="notes-label notes-label--link" href="{{ .RelPermalink }}">笔记</a>
+          {{ if gt (len $notesAll) 2 }}
+          <a class="home-section-more" href="{{ .RelPermalink }}"
+            >还有 {{ sub (len $notesAll) 2 }} 条</a
+          >
+          {{ end }}
+          {{ else }}
+          <p class="notes-label">笔记</p>
+          {{ end }}
+        </div>
+        {{ range first 2 $notesAll.ByDate.Reverse }}
         <article class="note">
           <header class="note-head">
             <h2 class="note-card-title">

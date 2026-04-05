@@ -1,0 +1,106 @@
+{{ define "main" }}
+  <style>
+    .today-page {
+      --font-sans:
+        system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --font-serif:
+        ui-serif, "New York", "Iowan Old Style", "Palatino Linotype", Palatino,
+        "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong", "SimSun",
+        Georgia, serif;
+    }
+    .today-page .today-stream {
+      position: relative;
+      padding-left: 1rem;
+    }
+    .today-page .today-stream::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.42rem;
+      bottom: 0;
+      width: 1px;
+      background: #e8e8e8;
+    }
+    .today-page .today-entry {
+      position: relative;
+      margin-bottom: 0.7rem;
+    }
+    .today-page .today-entry:last-child {
+      margin-bottom: 0;
+    }
+    .today-page .today-entry::before {
+      content: '';
+      position: absolute;
+      left: calc(-1rem - 3px);
+      top: 0.34rem;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #c8c8c8;
+      box-shadow: 0 0 0 2px #fafafa;
+    }
+    .today-page .today-entry-inner {
+      display: grid;
+      grid-template-columns: 4.65rem minmax(0, 1fr);
+      gap: 0.35rem 0.65rem;
+      align-items: start;
+    }
+    @media (max-width: 22rem) {
+      .today-page .today-entry-inner {
+        grid-template-columns: 1fr;
+        gap: 0.12rem 0;
+      }
+    }
+    .today-page .today-date {
+      font-size: 0.7rem;
+      color: #8e8e8e;
+      font-variant-numeric: tabular-nums;
+      margin: 0;
+      padding-top: 0.14em;
+      line-height: 1.4;
+      font-family: var(--font-sans);
+    }
+    .today-page .today-date a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .today-page .today-date a:hover {
+      color: #0b57d0;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .today-page .today-entry .content {
+      font-family: var(--font-serif);
+      line-height: 1.48;
+      color: #262626;
+      font-size: 0.94rem;
+      letter-spacing: 0.01em;
+      overflow-wrap: break-word;
+    }
+    .today-page .today-entry .content p {
+      margin-bottom: 0.4em;
+    }
+    .today-page .today-entry .content p:last-child {
+      margin-bottom: 0;
+    }
+  </style>
+  <header>
+    <h1 class="page-title page-title--kicker">{{ .Title }}</h1>
+    {{ with .Params.description }}<p class="section-desc">{{ . }}</p>{{ end }}
+  </header>
+  <div class="today-page">
+    <div class="today-stream">
+      {{ range .Pages.ByDate.Reverse }}
+        <div class="today-entry">
+          <div class="today-entry-inner">
+            <p class="today-date">
+              <a href="{{ .RelPermalink }}">{{ .Date.Format "2006-01-02" }}</a>
+            </p>
+            <div class="content">{{ .Content }}</div>
+          </div>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+{{ end }}
