@@ -1,0 +1,36 @@
+{{ define "main" }}
+  <header>
+    <h1 class="page-title page-title--kicker">{{ .Title }}</h1>
+    {{ with .Params.description }}<p class="section-desc">{{ . }}</p>{{ end }}
+  </header>
+  <div class="fav-archive">
+    {{ range .Params.categories }}
+      {{ $cat := . }}
+      {{ $items := where $.Pages "Params.category" $cat }}
+      {{ if $items }}
+        <section class="fav-group" aria-labelledby="fav-{{ $cat | anchorize }}">
+          <h2 class="fav-group-title" id="fav-{{ $cat | anchorize }}">{{ $cat }}</h2>
+          <ul class="fav-group-cards">
+            {{ range sort $items "Weight" }}
+              <li>
+                <a
+                  class="fav-card"
+                  href="{{ .Params.link | default .RelPermalink }}"
+                  {{ if .Params.link }}target="_blank" rel="noopener noreferrer"{{ end }}
+                >
+                  <span class="fav-card-title"
+                    >{{ .Title }}<span class="fav-card-ext" aria-hidden="true">↗</span></span
+                  >
+                  {{ $d := .Plain | strings.TrimSpace }}
+                  {{ if $d }}
+                    <span class="fav-card-desc">{{ $d | truncate 96 "…" }}</span>
+                  {{ end }}
+                </a>
+              </li>
+            {{ end }}
+          </ul>
+        </section>
+      {{ end }}
+    {{ end }}
+  </div>
+{{ end }}

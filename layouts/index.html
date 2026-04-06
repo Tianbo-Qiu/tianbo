@@ -143,11 +143,84 @@
         background: #f7f7f7;
         text-decoration: none;
       }
-      #notes {
+      #notes,
+      #favorites {
         margin: 0;
         margin-top: 1.5rem;
         padding-top: 1.5rem;
         border-top: 1px solid #e8e8e8;
+      }
+      .fav-cards {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.65rem 0.7rem;
+      }
+      @media (max-width: 28rem) {
+        .fav-cards {
+          grid-template-columns: 1fr;
+        }
+      }
+      .fav-card {
+        display: flex;
+        flex-direction: column;
+        gap: 0.38rem;
+        padding: 0.62rem 0.72rem;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.065);
+        border-radius: 10px;
+        box-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.04),
+          0 4px 12px rgba(0, 0, 0, 0.03);
+        text-decoration: none;
+        color: inherit;
+        min-width: 0;
+        transition:
+          border-color 0.2s ease,
+          box-shadow 0.2s ease,
+          transform 0.2s ease;
+      }
+      .fav-card:hover {
+        border-color: rgba(0, 0, 0, 0.09);
+        box-shadow:
+          0 2px 4px rgba(0, 0, 0, 0.05),
+          0 10px 28px rgba(0, 0, 0, 0.06);
+        transform: translateY(-1px);
+        text-decoration: none;
+      }
+      .fav-card:focus-visible {
+        outline: 2px solid #0b57d0;
+        outline-offset: 2px;
+      }
+      .fav-card-title {
+        font-family: var(--font-sans);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        color: #171717;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .fav-card:hover .fav-card-title {
+        color: #0b57d0;
+      }
+      .fav-card-ext {
+        font-weight: 500;
+        font-size: 0.72em;
+        opacity: 0.35;
+        margin-left: 0.12em;
+      }
+      .fav-card-desc {
+        font-family: var(--font-serif);
+        font-size: 0.78rem;
+        line-height: 1.48;
+        color: #737373;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
       .notes-label {
         display: block;
@@ -503,6 +576,43 @@
           <div class="content">{{ .Content }}</div>
         </article>
         {{ end }}
+      </section>
+      {{ end }}
+
+      {{ $favSection := site.GetPage "section" "favorites" }}
+      {{ $favAll := where .Site.RegularPages "Section" "favorites" }}
+      {{ if $favAll }}
+      <section id="favorites" aria-label="收藏">
+        <div class="home-section-head">
+          {{ with $favSection }}
+          <a class="notes-label notes-label--link" href="{{ .RelPermalink }}">收藏</a>
+          {{ if gt (len $favAll) 4 }}
+          <a class="home-section-more" href="{{ .RelPermalink }}"
+            >还有 {{ sub (len $favAll) 4 }} 条</a
+          >
+          {{ end }}
+          {{ else }}
+          <p class="notes-label">收藏</p>
+          {{ end }}
+        </div>
+        <div class="fav-cards" role="list">
+          {{ range first 4 $favAll.ByDate.Reverse }}
+          <a
+            class="fav-card"
+            role="listitem"
+            href="{{ .Params.link | default .RelPermalink }}"
+            {{ if .Params.link }}target="_blank" rel="noopener noreferrer"{{ end }}
+          >
+            <span class="fav-card-title"
+              >{{ .Title }}<span class="fav-card-ext" aria-hidden="true">↗</span></span
+            >
+            {{ $d := .Plain | strings.TrimSpace }}
+            {{ if $d }}
+            <span class="fav-card-desc">{{ $d | truncate 76 "…" }}</span>
+            {{ end }}
+          </a>
+          {{ end }}
+        </div>
       </section>
       {{ end }}
     </div>
