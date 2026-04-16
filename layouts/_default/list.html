@@ -1,6 +1,6 @@
 {{ define "main" }}
   <header>
-    <h1 class="page-title{{ if eq .Section "notes" }} page-title--kicker{{ end }}">{{ .Title }}</h1>
+    <h1 class="page-title">{{ .Title }}</h1>
     {{ with .Params.description }}<p class="section-desc">{{ . }}</p>{{ end }}
   </header>
   <ul class="note-list">
