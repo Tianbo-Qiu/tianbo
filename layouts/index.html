@@ -114,6 +114,119 @@
           opacity: 0;
         }
       }
+      .status-bar {
+        cursor: pointer;
+      }
+      .status-bar:hover {
+        background: #333c43;
+      }
+      .cmd-window {
+        position: fixed;
+        bottom: 2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 600px;
+        background: #2b3339;
+        border: 1px solid #445055;
+        border-radius: 8px 8px 0 0;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+        display: none;
+        flex-direction: column;
+        max-height: 300px;
+        font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace;
+        font-size: 0.8rem;
+        z-index: 100;
+        user-select: none;
+      }
+      .cmd-window.show {
+        display: flex;
+      }
+      .cmd-window.dragging {
+        transition: none;
+      }
+      .cmd-header {
+        padding: 0.5rem 1rem;
+        background: #333c43;
+        border-bottom: 1px solid #445055;
+        color: #9da9a0;
+        font-size: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: 8px 8px 0 0;
+        position: relative;
+      }
+      .cmd-header .btn {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .cmd-header .btn-close {
+        background: #e67e80;
+      }
+      .cmd-header .btn-min {
+        background: #dbbc7f;
+      }
+      .cmd-header .btn-max {
+        background: #a7c080;
+      }
+      .cmd-header .title {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .cmd-body {
+        padding: 1rem;
+        overflow-y: auto;
+        color: #d3c6aa;
+        line-height: 1.6;
+      }
+      .log-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .log-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #3a454a;
+      }
+      .log-item:last-child {
+        border-bottom: none;
+      }
+      .log-date {
+        color: #9da9a0;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .log-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #a7c080;
+        margin-top: 0.4em;
+        flex-shrink: 0;
+      }
+      .log-text {
+        color: #d3c6aa;
+        flex: 1;
+      }
+      .cmd-input {
+        padding: 0.5rem 1rem;
+        border-top: 1px solid #445055;
+        color: #9da9a0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .cmd-input .prompt {
+        color: #e69875;
+      }
       .status-dot {
         width: 5px;
         height: 5px;
@@ -178,15 +291,92 @@
         </button>
       </div>
     </main>
-    <div class="status-bar">
+    <div class="status-bar" id="statusBar">
       <span class="prompt">~</span>
       <span class="status-dot"></span>
       <span>读 Gin 文档</span>
       <span class="status-date">{{ now.Format "2006/01/02" }}</span>
-      <span class="cursor"></span>
+      <span class="cursor" id="statusCursor"></span>
     </div>
     <div class="toast" id="toast" aria-live="polite">已复制</div>
+
+    <div class="cmd-window" id="cmdWindow">
+      <div class="cmd-header">
+        <span class="btn btn-close"></span>
+        <span class="btn btn-min"></span>
+        <span class="btn btn-max"></span>
+        <span class="title">status.log</span>
+      </div>
+      <div class="cmd-body">
+        <ul class="log-list">
+          <li class="log-item">
+            <span class="log-date">2026/04/16</span>
+            <span class="log-dot"></span>
+            <span class="log-text">读 Gin 文档</span>
+          </li>
+        </ul>
+      </div>
+      <div class="cmd-input">
+        <span class="prompt">➜</span>
+        <span>~</span>
+        <span class="cursor" style="background: #a7c080; display: inline-block; width: 8px; height: 1.1em; animation: blink 1s step-end infinite;"></span>
+      </div>
+    </div>
+
     <script>
+      var cmdWindow = document.getElementById("cmdWindow");
+      var statusBar = document.getElementById("statusBar");
+      var statusCursor = document.getElementById("statusCursor");
+
+      statusBar.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var isShowing = cmdWindow.classList.toggle("show");
+        statusCursor.style.visibility = isShowing ? "hidden" : "visible";
+      });
+
+      cmdWindow.querySelector(".btn-close").addEventListener("click", function (e) {
+        e.stopPropagation();
+        cmdWindow.classList.remove("show");
+        statusCursor.style.visibility = "visible";
+      });
+
+      document.addEventListener("click", function (e) {
+        if (!cmdWindow.contains(e.target) && e.target !== statusBar) {
+          cmdWindow.classList.remove("show");
+          statusCursor.style.visibility = "visible";
+        }
+      });
+
+      // Drag functionality
+      var cmdHeader = cmdWindow.querySelector(".cmd-header");
+      var isDragging = false;
+      var dragOffsetX = 0;
+      var dragOffsetY = 0;
+
+      cmdHeader.addEventListener("mousedown", function (e) {
+        isDragging = true;
+        var rect = cmdWindow.getBoundingClientRect();
+        dragOffsetX = e.clientX - rect.left;
+        dragOffsetY = e.clientY - rect.top;
+        cmdWindow.classList.add("dragging");
+        e.preventDefault();
+      });
+
+      document.addEventListener("mousemove", function (e) {
+        if (!isDragging) return;
+        var x = e.clientX - dragOffsetX;
+        var y = e.clientY - dragOffsetY;
+        cmdWindow.style.left = x + "px";
+        cmdWindow.style.top = y + "px";
+        cmdWindow.style.bottom = "auto";
+        cmdWindow.style.transform = "none";
+      });
+
+      document.addEventListener("mouseup", function () {
+        isDragging = false;
+        cmdWindow.classList.remove("dragging");
+      });
+
       document
         .getElementById("copy-email")
         .addEventListener("click", function (e) {
