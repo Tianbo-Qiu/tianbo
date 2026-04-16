@@ -6,6 +6,156 @@
     <title>{{ .Site.Title }}</title>
     <link rel="icon" type="image/png" href="/images/avatar.png" />
     <style>
+      :root {
+        --bg: #f4f0d9;
+        --fg: #5c6a72;
+        --name-color: #5c6a72;
+        --tag-color: #829181;
+        --link-color: #3a94c5;
+        --link-hover-bg: #e6e9c4;
+        --status-bar-bg: #fdf6e3;
+        --status-bar-border: #bdc3af;
+        --status-bar-hover: #f4f0d9;
+        --status-prompt: #829181;
+        --status-dot: #8da101;
+        --status-date: #829181;
+        --cmd-bg: #fdf6e3;
+        --cmd-border: #bdc3af;
+        --cmd-shadow: rgba(0, 0, 0, 0.15);
+        --cmd-header-bg: #f4f0d9;
+        --cmd-header-border: #bdc3af;
+        --cmd-header-color: #829181;
+        --btn-close: #f57d26;
+        --btn-min: #dfa000;
+        --btn-max: #8da101;
+        --cmd-body-color: #5c6a72;
+        --cmd-link: #3a94c5;
+        --log-item-border: #e6e9c4;
+        --log-date: #829181;
+        --log-dot: #8da101;
+        --log-text: #5c6a72;
+        --cmd-input-border: #bdc3af;
+        --cmd-input-color: #829181;
+        --cmd-prompt: #f57d26;
+        --toast-bg: #5c6a72;
+        --toast-color: #fdf6e3;
+        --theme-toggle-color: #829181;
+        --theme-toggle-hover: #5c6a72;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #2b3339;
+          --fg: #d3c6aa;
+          --name-color: #d3c6aa;
+          --tag-color: #9da9a0;
+          --link-color: #7fbbb3;
+          --link-hover-bg: #333c43;
+          --status-bar-bg: #2b3339;
+          --status-bar-border: #445055;
+          --status-bar-hover: #333c43;
+          --status-prompt: #9da9a0;
+          --status-dot: #a7c080;
+          --status-date: #9da9a0;
+          --cmd-bg: #2b3339;
+          --cmd-border: #445055;
+          --cmd-shadow: rgba(0, 0, 0, 0.3);
+          --cmd-header-bg: #333c43;
+          --cmd-header-border: #445055;
+          --cmd-header-color: #9da9a0;
+          --btn-close: #e67e80;
+          --btn-min: #dbbc7f;
+          --btn-max: #a7c080;
+          --cmd-body-color: #d3c6aa;
+          --cmd-link: #7fbbb3;
+          --log-item-border: #3a454a;
+          --log-date: #9da9a0;
+          --log-dot: #a7c080;
+          --log-text: #d3c6aa;
+          --cmd-input-border: #445055;
+          --cmd-input-color: #9da9a0;
+          --cmd-prompt: #e69875;
+          --toast-bg: #1a1a1a;
+          --toast-color: #fff;
+          --theme-toggle-color: #9da9a0;
+          --theme-toggle-hover: #d3c6aa;
+        }
+      }
+
+      :root[data-theme="light"] {
+        --bg: #f4f0d9;
+        --fg: #5c6a72;
+        --name-color: #5c6a72;
+        --tag-color: #829181;
+        --link-color: #3a94c5;
+        --link-hover-bg: #e6e9c4;
+        --status-bar-bg: #fdf6e3;
+        --status-bar-border: #bdc3af;
+        --status-bar-hover: #f4f0d9;
+        --status-prompt: #829181;
+        --status-dot: #8da101;
+        --status-date: #829181;
+        --cmd-bg: #fdf6e3;
+        --cmd-border: #bdc3af;
+        --cmd-shadow: rgba(0, 0, 0, 0.15);
+        --cmd-header-bg: #f4f0d9;
+        --cmd-header-border: #bdc3af;
+        --cmd-header-color: #829181;
+        --btn-close: #f57d26;
+        --btn-min: #dfa000;
+        --btn-max: #8da101;
+        --cmd-body-color: #5c6a72;
+        --cmd-link: #3a94c5;
+        --log-item-border: #e6e9c4;
+        --log-date: #829181;
+        --log-dot: #8da101;
+        --log-text: #5c6a72;
+        --cmd-input-border: #bdc3af;
+        --cmd-input-color: #829181;
+        --cmd-prompt: #f57d26;
+        --toast-bg: #5c6a72;
+        --toast-color: #fdf6e3;
+        --theme-toggle-color: #829181;
+        --theme-toggle-hover: #5c6a72;
+      }
+
+      :root[data-theme="dark"] {
+        --bg: #2b3339;
+        --fg: #d3c6aa;
+        --name-color: #d3c6aa;
+        --tag-color: #9da9a0;
+        --link-color: #7fbbb3;
+        --link-hover-bg: #333c43;
+        --status-bar-bg: #2b3339;
+        --status-bar-border: #445055;
+        --status-bar-hover: #333c43;
+        --status-prompt: #9da9a0;
+        --status-dot: #a7c080;
+        --status-date: #9da9a0;
+        --cmd-bg: #2b3339;
+        --cmd-border: #445055;
+        --cmd-shadow: rgba(0, 0, 0, 0.3);
+        --cmd-header-bg: #333c43;
+        --cmd-header-border: #445055;
+        --cmd-header-color: #9da9a0;
+        --btn-close: #e67e80;
+        --btn-min: #dbbc7f;
+        --btn-max: #a7c080;
+        --cmd-body-color: #d3c6aa;
+        --cmd-link: #7fbbb3;
+        --log-item-border: #3a454a;
+        --log-date: #9da9a0;
+        --log-dot: #a7c080;
+        --log-text: #d3c6aa;
+        --cmd-input-border: #445055;
+        --cmd-input-color: #9da9a0;
+        --cmd-prompt: #e69875;
+        --toast-bg: #1a1a1a;
+        --toast-color: #fff;
+        --theme-toggle-color: #9da9a0;
+        --theme-toggle-hover: #d3c6aa;
+      }
+
       * {
         box-sizing: border-box;
         margin: 0;
@@ -20,8 +170,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #fafafa;
-        color: #1a1a1a;
+        background: var(--bg);
+        color: var(--fg);
+        transition: background 0.3s, color 0.3s;
       }
       .home {
         text-align: center;
@@ -61,11 +212,13 @@
         font-size: 1.5rem;
         font-weight: 600;
         margin-bottom: 0.75rem;
+        color: var(--name-color);
       }
       .tags {
-        color: #666;
-        font-size: 0.9rem;
+        color: var(--tag-color);
+        font-size: 0.85rem;
         margin-bottom: 0.5rem;
+        font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace;
       }
       .links {
         display: flex;
@@ -80,32 +233,37 @@
         left: 0;
         right: 0;
         padding: 0.4rem 1rem;
-        background: #2b3339;
+        background: var(--status-bar-bg);
         font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace;
         font-size: 0.75rem;
-        color: #d3c6aa;
+        color: var(--fg);
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
-        border-top: 1px solid #445055;
+        border-top: 1px solid var(--status-bar-border);
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .status-bar:hover {
+        background: var(--status-bar-hover);
       }
       .status-bar .prompt {
-        color: #9da9a0;
+        color: var(--status-prompt);
       }
       .status-bar .status-dot {
-        background: #a7c080;
-        box-shadow: 0 0 4px rgba(167, 192, 128, 0.4);
+        background: var(--status-dot);
+        box-shadow: 0 0 4px color-mix(in srgb, var(--status-dot) 40%, transparent);
       }
       .status-bar .status-date {
-        color: #9da9a0;
+        color: var(--status-date);
         margin-left: 0.5rem;
       }
       .status-bar .cursor {
         display: inline-block;
         width: 8px;
         height: 1.1em;
-        background: #a7c080;
+        background: var(--status-dot);
         animation: blink 1s step-end infinite;
         margin-left: 0.2rem;
       }
@@ -114,12 +272,6 @@
           opacity: 0;
         }
       }
-      .status-bar {
-        cursor: pointer;
-      }
-      .status-bar:hover {
-        background: #333c43;
-      }
       .cmd-window {
         position: fixed;
         bottom: 2.5rem;
@@ -127,10 +279,10 @@
         transform: translateX(-50%);
         width: 90%;
         max-width: 600px;
-        background: #2b3339;
-        border: 1px solid #445055;
+        background: var(--cmd-bg);
+        border: 1px solid var(--cmd-border);
         border-radius: 8px 8px 0 0;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 -4px 20px var(--cmd-shadow);
         display: none;
         flex-direction: column;
         max-height: 300px;
@@ -147,9 +299,9 @@
       }
       .cmd-header {
         padding: 0.5rem 1rem;
-        background: #333c43;
-        border-bottom: 1px solid #445055;
-        color: #9da9a0;
+        background: var(--cmd-header-bg);
+        border-bottom: 1px solid var(--cmd-header-border);
+        color: var(--cmd-header-color);
         font-size: 0.75rem;
         display: flex;
         align-items: center;
@@ -164,13 +316,13 @@
         flex-shrink: 0;
       }
       .cmd-header .btn-close {
-        background: #e67e80;
+        background: var(--btn-close);
       }
       .cmd-header .btn-min {
-        background: #dbbc7f;
+        background: var(--btn-min);
       }
       .cmd-header .btn-max {
-        background: #a7c080;
+        background: var(--btn-max);
       }
       .cmd-header .title {
         position: absolute;
@@ -180,11 +332,11 @@
       .cmd-body {
         padding: 1rem;
         overflow-y: auto;
-        color: #d3c6aa;
+        color: var(--cmd-body-color);
         line-height: 1.6;
       }
       .log-text a {
-        color: #7fbbb3;
+        color: var(--cmd-link);
         text-decoration: none;
       }
       .log-text a:hover {
@@ -200,13 +352,13 @@
         align-items: flex-start;
         gap: 0.75rem;
         padding: 0.5rem 0;
-        border-bottom: 1px solid #3a454a;
+        border-bottom: 1px solid var(--log-item-border);
       }
       .log-item:last-child {
         border-bottom: none;
       }
       .log-date {
-        color: #9da9a0;
+        color: var(--log-date);
         font-size: 0.75rem;
         white-space: nowrap;
         flex-shrink: 0;
@@ -215,49 +367,84 @@
         width: 6px;
         height: 6px;
         border-radius: 50%;
-        background: #a7c080;
+        background: var(--log-dot);
         margin-top: 0.4em;
         flex-shrink: 0;
       }
       .log-text {
-        color: #d3c6aa;
+        color: var(--log-text);
         flex: 1;
       }
       .cmd-input {
         padding: 0.5rem 1rem;
-        border-top: 1px solid #445055;
-        color: #9da9a0;
+        border-top: 1px solid var(--cmd-input-border);
+        color: var(--cmd-input-color);
         display: flex;
         align-items: center;
         gap: 0.5rem;
       }
       .cmd-input .prompt {
-        color: #e69875;
+        color: var(--cmd-prompt);
       }
       .status-dot {
         width: 5px;
         height: 5px;
         border-radius: 50%;
-        background: #22c55e;
+        background: var(--status-dot);
       }
       .links a,
       .links button {
-        color: #0066cc;
+        color: var(--link-color);
         text-decoration: none;
         background: none;
         border: none;
         cursor: pointer;
         font: inherit;
+        font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace;
+        font-size: 0.85rem;
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        transition: background 0.2s;
       }
       .links a:hover,
       .links button:hover {
-        text-decoration: underline;
+        background: var(--link-hover-bg);
+        text-decoration: none;
+      }
+      .theme-toggle {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        background: transparent;
+        border: none;
+        color: var(--theme-toggle-color);
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: color 0.2s, background 0.2s, transform 0.2s;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .theme-toggle:hover {
+        color: var(--theme-toggle-hover);
+        background: var(--link-hover-bg);
+        transform: scale(1.1);
+      }
+      .theme-toggle:active {
+        transform: scale(0.95);
+      }
+      .theme-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        transition: transform 0.3s ease;
       }
       .toast {
         position: fixed;
         padding: 0.5rem 1rem;
-        background: #1a1a1a;
-        color: #fff;
+        background: var(--toast-bg);
+        color: var(--toast-color);
         font-size: 0.875rem;
         border-radius: 6px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -278,6 +465,16 @@
     {{ partial "vercel-analytics.html" . }}
   </head>
   <body>
+    <button class="theme-toggle" id="themeToggle" title="切换主题" aria-label="切换主题">
+      <svg class="theme-icon" id="themeIcon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Elegant Crescent Moon -->
+        <path class="moon-crescent" d="M22 6c-10 2-16 10-16 20s6 20 18 20c3 0 6-.5 8-1.5-7-3-12-9-12-18.5 0-9.5 5-16 12-18.5-2-1-5-1.5-8-1.5z"></path>
+        <!-- Three decorative stars -->
+        <path class="star-1" d="M10 12l1 2.5 2.5 1-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1z"></path>
+        <path class="star-2" d="M40 10l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"></path>
+        <path class="star-3" d="M6 34l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"></path>
+      </svg>
+    </button>
     <main class="home">
       <img class="avatar" src="/images/avatar.png" alt="Tianbo" />
       <h1 class="name">{{ .Site.Params.name }}</h1>
@@ -326,11 +523,41 @@
       <div class="cmd-input">
         <span class="prompt">➜</span>
         <span>~</span>
-        <span class="cursor" style="background: #a7c080; display: inline-block; width: 8px; height: 1.1em; animation: blink 1s step-end infinite;"></span>
+        <span class="cursor" style="background: var(--status-dot); display: inline-block; width: 8px; height: 1.1em; animation: blink 1s step-end infinite;"></span>
       </div>
     </div>
 
     <script>
+      // Theme toggle
+      var themeToggle = document.getElementById("themeToggle");
+      var themeIcon = document.getElementById("themeIcon");
+      var root = document.documentElement;
+      var currentTheme = localStorage.getItem("theme") || "light";
+
+      // Tarot-style Sun icon
+      var sunIcon = '<circle cx="24" cy="24" r="10"></circle><path d="M24 6v4m0 28v4M6 24h4m28 0h4M9.86 9.86l2.83 2.83m19.02 19.02l2.83 2.83M9.86 38.14l2.83-2.83m19.02-19.02l2.83-2.83M15 7l1.5 3.5L20 12l-3.5 1.5L15 17l-1.5-3.5L10 12l3.5-1.5zM35 31l1 2.5 2.5 1-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1z"></path>';
+      // Elegant Tarot-style Moon with stars only
+      var moonIcon = '<path class="moon-crescent" d="M22 6c-10 2-16 10-16 20s6 20 18 20c3 0 6-.5 8-1.5-7-3-12-9-12-18.5 0-9.5 5-16 12-18.5-2-1-5-1.5-8-1.5z"></path><path class="star-1" d="M10 12l1 2.5 2.5 1-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1z"></path><path class="star-2" d="M40 10l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"></path><path class="star-3" d="M6 34l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"></path>';
+
+      function setTheme(theme) {
+        root.setAttribute("data-theme", theme);
+        themeIcon.innerHTML = theme === "light" ? moonIcon : sunIcon;
+        localStorage.setItem("theme", theme);
+      }
+
+      // Check system preference
+      if (!localStorage.getItem("theme")) {
+        if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          currentTheme = "dark";
+        }
+      }
+      setTheme(currentTheme);
+
+      themeToggle.addEventListener("click", function () {
+        var newTheme = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+        setTheme(newTheme);
+      });
+
       var cmdWindow = document.getElementById("cmdWindow");
       var statusBar = document.getElementById("statusBar");
       var statusCursor = document.getElementById("statusCursor");
