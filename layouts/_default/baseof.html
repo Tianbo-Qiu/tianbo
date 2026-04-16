@@ -30,67 +30,14 @@
       margin: 0 auto;
       padding: clamp(1.75rem, 4vw, 2.25rem) clamp(1.25rem, 4vw, 1.75rem) 3.5rem;
     }
-    .site-header {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem 1.5rem;
-      margin-bottom: 2rem;
-      padding-bottom: 1.15rem;
-      border-bottom: 1px solid #e8e8e8;
-    }
-    .site-header-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      min-width: 0;
-      text-decoration: none;
-      color: inherit;
-      border-radius: 999px;
-      margin: -0.2rem;
-      padding: 0.2rem 0.35rem 0.2rem 0.2rem;
-    }
-    .site-header-brand:hover {
-      text-decoration: none;
-    }
-    .site-header-brand:hover .site-header-name {
-      color: #0b57d0;
-    }
-    .site-header-brand:focus-visible {
-      outline: 2px solid #0b57d0;
-      outline-offset: 2px;
-    }
-    .site-header-avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      object-fit: cover;
-      flex-shrink: 0;
-      background: #eee;
-    }
-    .site-header-name {
-      font-size: 0.9375rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      line-height: 1.3;
-      color: #1a1a1a;
-    }
-    .site-header-nav {
+    .nav {
       font-size: 0.875rem;
       color: #5c5c5c;
-      line-height: 1.4;
+      margin-bottom: 2.5rem;
     }
-    .site-header-nav a {
-      color: #5c5c5c;
-    }
-    .site-header-nav a:hover {
-      color: #0b57d0;
-    }
-    .nav-sep {
-      margin: 0 0.35rem;
-      color: #bbb;
-    }
+    .nav a { color: #5c5c5c; }
+    .nav a:hover { color: #0b57d0; }
+    .nav-sep { margin: 0 0.35rem; color: #bbb; }
     .page-title {
       font-size: 1.15rem;
       font-weight: 600;
@@ -130,11 +77,7 @@
     .note-meta {
       color: #888;
       font-size: 0.8rem;
-    }
-    .note-list .note-meta {
-      display: inline-block;
-      margin-right: 0.55rem;
-      font-variant-numeric: tabular-nums;
+      margin-left: 0.5rem;
     }
     .article h1 {
       font-size: clamp(1.25rem, 2.5vw, 1.4rem);
@@ -178,22 +121,9 @@
 </head>
 <body>
   <div class="wrap">
-    <header class="site-header">
-      <a class="site-header-brand" href="{{ "/" | relURL }}">
-        <img
-          class="site-header-avatar"
-          src="{{ "/images/avatar.png" | relURL }}"
-          alt=""
-          width="44"
-          height="44"
-          decoding="async"
-        />
-        <span class="site-header-name">{{ .Site.Params.name }}</span>
-      </a>
-      <nav class="site-header-nav" aria-label="栏目">
-        <a href="{{ "/" | relURL }}">首页</a><span class="nav-sep">·</span><a href="{{ "/today/" | relURL }}">今日</a><span class="nav-sep">·</span><a href="{{ "/notes/" | relURL }}">笔记</a>
-      </nav>
-    </header>
+    <nav class="nav" aria-label="站点">
+      <a href="/">首页</a><span class="nav-sep">·</span><a href="/notes/">笔记</a>
+    </nav>
     {{ block "main" . }}{{ end }}
   </div>
 </body>
