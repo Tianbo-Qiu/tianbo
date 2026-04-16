@@ -144,7 +144,6 @@
       }
       #notes {
         margin: 0;
-        margin-top: 2rem;
         padding-top: 2rem;
         border-top: 1px solid #e8e8e8;
       }
@@ -276,71 +275,6 @@
       .note .content h3:not(:first-child) {
         margin-top: 1.35rem;
       }
-      #today {
-        margin: 0;
-        padding-top: 2rem;
-        border-top: 1px solid #e8e8e8;
-      }
-      .today-stream {
-        position: relative;
-        padding-left: 1.25rem;
-      }
-      .today-stream::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0.55rem;
-        bottom: 0;
-        width: 1px;
-        background: #e8e8e8;
-      }
-      .today-entry {
-        position: relative;
-        margin-bottom: 1.35rem;
-      }
-      .today-entry:last-child {
-        margin-bottom: 0;
-      }
-      .today-entry::before {
-        content: '';
-        position: absolute;
-        left: calc(-1.25rem - 3px);
-        top: 0.48rem;
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: #d0d0d0;
-        box-shadow: 0 0 0 2px #fafafa;
-      }
-      .today-date {
-        font-size: 0.72rem;
-        color: #9a9a9a;
-        font-variant-numeric: tabular-nums;
-        margin-bottom: 0.35rem;
-        font-family:
-          system-ui,
-          -apple-system,
-          "Segoe UI",
-          Roboto,
-          "PingFang SC",
-          sans-serif;
-      }
-      .today-entry .content {
-        font-family:
-          ui-serif, "New York", "Iowan Old Style", "Palatino Linotype",
-          Palatino, "Songti SC", "Noto Serif SC", "Source Han Serif SC",
-          "STSong", "SimSun", Georgia, serif;
-        line-height: 1.74;
-        color: #262626;
-        font-size: 1rem;
-        letter-spacing: 0.01em;
-      }
-      .today-entry .content p {
-        margin-bottom: 0.85em;
-      }
-      .today-entry .content p:last-child {
-        margin-bottom: 0;
-      }
       .toast {
         position: fixed;
         padding: 0.5rem 1rem;
@@ -412,21 +346,6 @@
           </button>
         </div>
       </header>
-
-      {{ $today := where .Site.RegularPages "Section" "today" }}
-      {{ if $today }}
-      <section id="today" aria-label="今日">
-        <p class="notes-label">今日</p>
-        <div class="today-stream">
-          {{ range $today.ByDate.Reverse }}
-          <div class="today-entry">
-            <p class="today-date">{{ .Date.Format "2006-01-02" }}</p>
-            <div class="content">{{ .Content }}</div>
-          </div>
-          {{ end }}
-        </div>
-      </section>
-      {{ end }}
 
       {{ $notes := where .Site.RegularPages "Section" "notes" }} {{ if $notes }}
       <section id="notes" aria-label="笔记">
