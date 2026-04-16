@@ -1,137 +1,231 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ .Site.Title }}</title>
-  <link rel="icon" type="image/png" href="/images/avatar.png">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #fafafa;
-      color: #1a1a1a;
-    }
-    .home {
-      text-align: center;
-      padding: 2rem;
-    }
-    .avatar {
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 1.5rem;
-      transition: transform 0.25s ease;
-      animation: breathe 2.5s ease-in-out infinite;
-    }
-    .avatar:hover {
-      animation: breathe-hover 2.5s ease-in-out infinite;
-    }
-    @keyframes breathe {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
-    }
-    @keyframes breathe-hover {
-      0%, 100% { transform: scale(1.05) translateY(0); }
-      50% { transform: scale(1.05) translateY(-4px); }
-    }
-    .name {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-    }
-    .tags {
-      color: #666;
-      font-size: 0.9rem;
-      margin-bottom: 1.5rem;
-    }
-    .links {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .links a,
-    .links button {
-      color: #0066cc;
-      text-decoration: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font: inherit;
-    }
-    .links a:hover,
-    .links button:hover { text-decoration: underline; }
-    .toast {
-      position: fixed;
-      padding: 0.5rem 1rem;
-      background: #1a1a1a;
-      color: #fff;
-      font-size: 0.875rem;
-      border-radius: 6px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      z-index: 9999;
-      visibility: hidden;
-      opacity: 0;
-      transition: visibility 0.2s, opacity 0.2s;
-      pointer-events: none;
-      white-space: nowrap;
-    }
-    .toast.show {
-      visibility: visible;
-      opacity: 1;
-    }
-  </style>
-  {{ partial "vercel-analytics.html" . }}
-</head>
-<body>
-  <main class="home">
-    <img class="avatar" src="/images/avatar.png" alt="Tianbo">
-    <h1 class="name">{{ .Site.Params.name }}</h1>
-    <p class="tags">{{ .Site.Params.tags }}</p>
-    <div class="links">
-      <a href="{{ .Site.Params.github }}" rel="me noopener noreferrer" target="_blank">GitHub</a>
-      <button type="button" data-email="{{ .Site.Params.email }}" id="copy-email">Email</button>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ .Site.Title }}</title>
+    <link rel="icon" type="image/png" href="/images/avatar.png" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fafafa;
+        color: #1a1a1a;
+      }
+      .home {
+        text-align: center;
+        padding: 2rem;
+      }
+      .avatar {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 1.5rem;
+        transition: transform 0.25s ease;
+        animation: breathe 2.5s ease-in-out infinite;
+      }
+      .avatar:hover {
+        animation: breathe-hover 2.5s ease-in-out infinite;
+      }
+      @keyframes breathe {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-4px);
+        }
+      }
+      @keyframes breathe-hover {
+        0%,
+        100% {
+          transform: scale(1.05) translateY(0);
+        }
+        50% {
+          transform: scale(1.05) translateY(-4px);
+        }
+      }
+      .name {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+      }
+      .tags {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+      .links {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+      }
+      .status-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 0.4rem 1rem;
+        background: #2b3339;
+        font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace;
+        font-size: 0.75rem;
+        color: #d3c6aa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border-top: 1px solid #445055;
+      }
+      .status-bar .prompt {
+        color: #9da9a0;
+      }
+      .status-bar .status-dot {
+        background: #a7c080;
+        box-shadow: 0 0 4px rgba(167, 192, 128, 0.4);
+      }
+      .status-bar .status-date {
+        color: #9da9a0;
+        margin-left: 0.5rem;
+      }
+      .status-bar .cursor {
+        display: inline-block;
+        width: 8px;
+        height: 1.1em;
+        background: #a7c080;
+        animation: blink 1s step-end infinite;
+        margin-left: 0.2rem;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+      .status-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #22c55e;
+      }
+      .links a,
+      .links button {
+        color: #0066cc;
+        text-decoration: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+      }
+      .links a:hover,
+      .links button:hover {
+        text-decoration: underline;
+      }
+      .toast {
+        position: fixed;
+        padding: 0.5rem 1rem;
+        background: #1a1a1a;
+        color: #fff;
+        font-size: 0.875rem;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 9999;
+        visibility: hidden;
+        opacity: 0;
+        transition:
+          visibility 0.2s,
+          opacity 0.2s;
+        pointer-events: none;
+        white-space: nowrap;
+      }
+      .toast.show {
+        visibility: visible;
+        opacity: 1;
+      }
+    </style>
+    {{ partial "vercel-analytics.html" . }}
+  </head>
+  <body>
+    <main class="home">
+      <img class="avatar" src="/images/avatar.png" alt="Tianbo" />
+      <h1 class="name">{{ .Site.Params.name }}</h1>
+      <p class="tags">{{ .Site.Params.tags }}</p>
+      <div class="links">
+        <a
+          href="{{ .Site.Params.github }}"
+          rel="me noopener noreferrer"
+          target="_blank"
+          >GitHub</a
+        >
+        <button
+          type="button"
+          data-email="{{ .Site.Params.email }}"
+          id="copy-email"
+        >
+          Email
+        </button>
+      </div>
+    </main>
+    <div class="status-bar">
+      <span class="prompt">~</span>
+      <span class="status-dot"></span>
+      <span>读 Gin 文档</span>
+      <span class="status-date">{{ now.Format "2006/01/02" }}</span>
+      <span class="cursor"></span>
     </div>
-  </main>
-  <div class="toast" id="toast" aria-live="polite">已复制</div>
-  <script>
-    document.getElementById('copy-email').addEventListener('click', function(e) {
-      var email = this.dataset.email;
-      var toast = document.getElementById('toast');
-      var btn = this.getBoundingClientRect();
-      function showToast() {
-        toast.style.left = (btn.right + 12) + 'px';
-        toast.style.top = (btn.top + btn.height / 2 - toast.offsetHeight / 2) + 'px';
-        toast.classList.add('show');
-        setTimeout(function() { toast.classList.remove('show'); }, 1500);
-      }
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(email).then(showToast).catch(function() {
-          fallbackCopy(email, showToast);
+    <div class="toast" id="toast" aria-live="polite">已复制</div>
+    <script>
+      document
+        .getElementById("copy-email")
+        .addEventListener("click", function (e) {
+          var email = this.dataset.email;
+          var toast = document.getElementById("toast");
+          var btn = this.getBoundingClientRect();
+          function showToast() {
+            toast.style.left = btn.right + 12 + "px";
+            toast.style.top =
+              btn.top + btn.height / 2 - toast.offsetHeight / 2 + "px";
+            toast.classList.add("show");
+            setTimeout(function () {
+              toast.classList.remove("show");
+            }, 1500);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard
+              .writeText(email)
+              .then(showToast)
+              .catch(function () {
+                fallbackCopy(email, showToast);
+              });
+          } else {
+            fallbackCopy(email, showToast);
+          }
         });
-      } else {
-        fallbackCopy(email, showToast);
+      function fallbackCopy(text, onSuccess) {
+        var textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand("copy");
+          onSuccess();
+        } catch (e) {}
+        document.body.removeChild(textarea);
       }
-    });
-    function fallbackCopy(text, onSuccess) {
-      var textarea = document.createElement('textarea');
-      textarea.value = text;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      document.body.appendChild(textarea);
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        onSuccess();
-      } catch (e) {}
-      document.body.removeChild(textarea);
-    }
-  </script>
-</body>
+    </script>
+  </body>
 </html>
