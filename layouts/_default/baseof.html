@@ -127,98 +127,6 @@
     .note-list a:hover {
       color: #0b57d0;
     }
-    .fav-archive {
-      display: flex;
-      flex-direction: column;
-      gap: 1.85rem;
-    }
-    .fav-group-title {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: #5a5a5a;
-      letter-spacing: 0.14em;
-      margin: 0 0 0.75rem;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    }
-    .fav-group-cards {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.65rem 0.7rem;
-    }
-    @media (max-width: 28rem) {
-      .fav-group-cards {
-        grid-template-columns: 1fr;
-      }
-    }
-    .fav-group-cards > li {
-      margin: 0;
-      min-width: 0;
-    }
-    .fav-card {
-      display: flex;
-      flex-direction: column;
-      gap: 0.38rem;
-      height: 100%;
-      padding: 0.62rem 0.72rem;
-      background: #fff;
-      border: 1px solid rgba(0, 0, 0, 0.065);
-      border-radius: 10px;
-      box-shadow:
-        0 1px 2px rgba(0, 0, 0, 0.04),
-        0 4px 12px rgba(0, 0, 0, 0.03);
-      text-decoration: none;
-      color: inherit;
-      transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        transform 0.2s ease;
-    }
-    .fav-card:hover {
-      border-color: rgba(0, 0, 0, 0.09);
-      box-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.05),
-        0 10px 28px rgba(0, 0, 0, 0.06);
-      transform: translateY(-1px);
-      text-decoration: none;
-    }
-    .fav-card:focus-visible {
-      outline: 2px solid #0b57d0;
-      outline-offset: 2px;
-    }
-    .fav-card-title {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      line-height: 1.4;
-      color: #171717;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    .fav-card:hover .fav-card-title {
-      color: #0b57d0;
-    }
-    .fav-card-ext {
-      font-weight: 500;
-      font-size: 0.72em;
-      opacity: 0.35;
-      margin-left: 0.12em;
-    }
-    .fav-card-desc {
-      font-family: ui-serif, "New York", "Songti SC", "Noto Serif SC", "STSong", Georgia, serif;
-      font-size: 0.78rem;
-      line-height: 1.48;
-      color: #737373;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
     .note-meta {
       color: #888;
       font-size: 0.8rem;
@@ -265,18 +173,6 @@
       margin-top: 1.35rem;
     }
     .article .content h3 + p { margin-top: 0; }
-    .favorite-outbound {
-      font-size: 0.875rem;
-      line-height: 1.5;
-      margin: -0.85rem 0 1.15rem;
-      word-break: break-all;
-    }
-    .favorite-outbound a {
-      color: #5c5c5c;
-    }
-    .favorite-outbound a:hover {
-      color: #0b57d0;
-    }
   </style>
   {{ partial "vercel-analytics.html" . }}
 </head>
@@ -295,7 +191,7 @@
         <span class="site-header-name">{{ .Site.Params.name }}</span>
       </a>
       <nav class="site-header-nav" aria-label="栏目">
-        <a href="{{ "/" | relURL }}">首页</a><span class="nav-sep">·</span><a href="{{ "/today/" | relURL }}">今日</a><span class="nav-sep">·</span><a href="{{ "/notes/" | relURL }}">笔记</a><span class="nav-sep">·</span><a href="{{ "/favorites/" | relURL }}">收藏</a>
+        <a href="{{ "/" | relURL }}">首页</a><span class="nav-sep">·</span><a href="{{ "/today/" | relURL }}">今日</a><span class="nav-sep">·</span><a href="{{ "/notes/" | relURL }}">笔记</a>
       </nav>
     </header>
     {{ block "main" . }}{{ end }}
