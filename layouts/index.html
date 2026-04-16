@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,33 +8,24 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: system-ui, -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      font-family: system-ui, -apple-system, sans-serif;
       min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: #fafafa;
       color: #1a1a1a;
-      line-height: 1.6;
     }
-    a {
-      color: #0066cc;
-      text-decoration: none;
-    }
-    a:hover { text-decoration: underline; }
-    .wrap {
-      max-width: 38rem;
-      margin: 0 auto;
-      padding: 2.5rem 1.5rem 4rem;
-    }
-    .intro {
-      text-align: left;
-      margin-bottom: 3rem;
+    .home {
+      text-align: center;
+      padding: 2rem;
     }
     .avatar {
-      width: 120px;
-      height: 120px;
+      width: 160px;
+      height: 160px;
       border-radius: 50%;
       object-fit: cover;
-      margin-bottom: 1.25rem;
-      display: block;
+      margin-bottom: 1.5rem;
       transition: transform 0.25s ease;
       animation: breathe 2.5s ease-in-out infinite;
     }
@@ -43,26 +34,26 @@
     }
     @keyframes breathe {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-3px); }
+      50% { transform: translateY(-4px); }
     }
     @keyframes breathe-hover {
-      0%, 100% { transform: scale(1.04) translateY(0); }
-      50% { transform: scale(1.04) translateY(-3px); }
+      0%, 100% { transform: scale(1.05) translateY(0); }
+      50% { transform: scale(1.05) translateY(-4px); }
     }
     .name {
-      font-size: 1.35rem;
+      font-size: 1.5rem;
       font-weight: 600;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
     }
     .tags {
       color: #666;
       font-size: 0.9rem;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
     }
     .links {
       display: flex;
-      gap: 1.25rem;
-      justify-content: flex-start;
+      gap: 1.5rem;
+      justify-content: center;
       flex-wrap: wrap;
     }
     .links a,
@@ -76,72 +67,6 @@
     }
     .links a:hover,
     .links button:hover { text-decoration: underline; }
-    .notes-label {
-      font-size: 0.8rem;
-      color: #888;
-      letter-spacing: 0.06em;
-      margin-bottom: 1.75rem;
-      text-transform: none;
-    }
-    .note {
-      margin-bottom: 2.75rem;
-      padding-bottom: 2.75rem;
-      border-bottom: 1px solid #eaeaea;
-    }
-    .note:last-child {
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: none;
-    }
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
-    .note-meta {
-      font-size: 0.8rem;
-      color: #999;
-      margin-bottom: 1rem;
-    }
-    .note-meta a {
-      color: #999;
-      text-decoration: none;
-    }
-    .note-meta a:hover {
-      color: #0066cc;
-      text-decoration: underline;
-    }
-    .note .content {
-      line-height: 1.75;
-      color: #1a1a1a;
-      font-size: 1rem;
-    }
-    .note .content p { margin-bottom: 1em; }
-    .note .content p:last-child { margin-bottom: 0; }
-    .note .content ul, .note .content ol {
-      margin: 0.5em 0 1em 1.25em;
-    }
-    .note .content li { margin-bottom: 0.35em; }
-    .note .content strong {
-      font-weight: 600;
-      color: #111;
-    }
-    .note .content h3 {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #888;
-      letter-spacing: 0.04em;
-      margin: 0 0 0.75rem;
-    }
-    .note .content h3:not(:first-child) {
-      margin-top: 2rem;
-    }
     .toast {
       position: fixed;
       padding: 0.5rem 1rem;
@@ -164,33 +89,15 @@
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="intro">
-      <img class="avatar" src="/images/avatar.png" alt="Tianbo">
-      <h1 class="name">{{ .Site.Params.name }}</h1>
-      <p class="tags">{{ .Site.Params.tags }}</p>
-      <div class="links">
-        <a href="{{ .Site.Params.github }}" rel="me noopener noreferrer" target="_blank">GitHub</a>
-        <button type="button" data-email="{{ .Site.Params.email }}" id="copy-email">Email</button>
-      </div>
-    </header>
-
-    {{ $notes := where .Site.RegularPages "Section" "notes" }}
-    {{ if $notes }}
-    <section id="notes" aria-label="笔记">
-      <p class="notes-label">笔记</p>
-      {{ range $notes.ByDate.Reverse }}
-      <article class="note">
-        <h2 class="sr-only"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-        <p class="note-meta"><a href="{{ .RelPermalink }}">{{ if .Date }}{{ .Date.Format "2006-01-02" }}{{ else }}链接{{ end }}</a></p>
-        <div class="content">
-          {{ .Content }}
-        </div>
-      </article>
-      {{ end }}
-    </section>
-    {{ end }}
-  </div>
+  <main class="home">
+    <img class="avatar" src="/images/avatar.png" alt="Tianbo">
+    <h1 class="name">{{ .Site.Params.name }}</h1>
+    <p class="tags">{{ .Site.Params.tags }}</p>
+    <div class="links">
+      <a href="{{ .Site.Params.github }}" rel="me noopener noreferrer" target="_blank">GitHub</a>
+      <button type="button" data-email="{{ .Site.Params.email }}" id="copy-email">Email</button>
+    </div>
+  </main>
   <div class="toast" id="toast" aria-live="polite">已复制</div>
   <script>
     document.getElementById('copy-email').addEventListener('click', function(e) {
