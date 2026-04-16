@@ -183,6 +183,13 @@
         color: #d3c6aa;
         line-height: 1.6;
       }
+      .log-text a {
+        color: #7fbbb3;
+        text-decoration: none;
+      }
+      .log-text a:hover {
+        text-decoration: underline;
+      }
       .log-list {
         list-style: none;
         margin: 0;
@@ -294,7 +301,7 @@
     <div class="status-bar" id="statusBar">
       <span class="prompt">~</span>
       <span class="status-dot"></span>
-      <span>读 Gin 文档</span>
+      <span>通读 Gin 文档</span>
       <span class="status-date">{{ now.Format "2006/01/02" }}</span>
       <span class="cursor" id="statusCursor"></span>
     </div>
@@ -312,7 +319,7 @@
           <li class="log-item">
             <span class="log-date">2026/04/16</span>
             <span class="log-dot"></span>
-            <span class="log-text">读 Gin 文档</span>
+            <span class="log-text">通读 <a href="https://gin-gonic.com/en/docs/" target="_blank" rel="noopener noreferrer">Gin</a> 文档</span>
           </li>
         </ul>
       </div>
@@ -347,35 +354,62 @@
         }
       });
 
-      // Drag functionality
+      // Drag functionality (mouse + touch)
       var cmdHeader = cmdWindow.querySelector(".cmd-header");
       var isDragging = false;
       var dragOffsetX = 0;
       var dragOffsetY = 0;
 
-      cmdHeader.addEventListener("mousedown", function (e) {
+      function startDrag(x, y) {
         isDragging = true;
         var rect = cmdWindow.getBoundingClientRect();
-        dragOffsetX = e.clientX - rect.left;
-        dragOffsetY = e.clientY - rect.top;
+        dragOffsetX = x - rect.left;
+        dragOffsetY = y - rect.top;
         cmdWindow.classList.add("dragging");
+      }
+
+      function moveDrag(x, y) {
+        if (!isDragging) return;
+        var newX = x - dragOffsetX;
+        var newY = y - dragOffsetY;
+        cmdWindow.style.left = newX + "px";
+        cmdWindow.style.top = newY + "px";
+        cmdWindow.style.bottom = "auto";
+        cmdWindow.style.transform = "none";
+      }
+
+      function endDrag() {
+        isDragging = false;
+        cmdWindow.classList.remove("dragging");
+      }
+
+      // Mouse events
+      cmdHeader.addEventListener("mousedown", function (e) {
+        startDrag(e.clientX, e.clientY);
         e.preventDefault();
       });
 
       document.addEventListener("mousemove", function (e) {
-        if (!isDragging) return;
-        var x = e.clientX - dragOffsetX;
-        var y = e.clientY - dragOffsetY;
-        cmdWindow.style.left = x + "px";
-        cmdWindow.style.top = y + "px";
-        cmdWindow.style.bottom = "auto";
-        cmdWindow.style.transform = "none";
+        moveDrag(e.clientX, e.clientY);
       });
 
-      document.addEventListener("mouseup", function () {
-        isDragging = false;
-        cmdWindow.classList.remove("dragging");
-      });
+      document.addEventListener("mouseup", endDrag);
+
+      // Touch events
+      cmdHeader.addEventListener("touchstart", function (e) {
+        var touch = e.touches[0];
+        startDrag(touch.clientX, touch.clientY);
+        e.preventDefault();
+      }, { passive: false });
+
+      cmdHeader.addEventListener("touchmove", function (e) {
+        var touch = e.touches[0];
+        moveDrag(touch.clientX, touch.clientY);
+        e.preventDefault();
+      }, { passive: false });
+
+      cmdHeader.addEventListener("touchend", endDrag);
+      cmdHeader.addEventListener("touchcancel", endDrag);
 
       document
         .getElementById("copy-email")
