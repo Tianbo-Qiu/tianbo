@@ -575,7 +575,7 @@
       });
 
       document.addEventListener("click", function (e) {
-        if (!cmdWindow.contains(e.target) && e.target !== statusBar) {
+        if (!cmdWindow.contains(e.target) && e.target !== statusBar && e.target !== themeToggle && !themeToggle.contains(e.target)) {
           cmdWindow.classList.remove("show");
           statusCursor.style.visibility = "visible";
         }
