@@ -1,0 +1,6 @@
+{{- if eq (getenv "VERCEL") "1" -}}
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script async src="/_vercel/insights/script.js"></script>
+{{- end -}}

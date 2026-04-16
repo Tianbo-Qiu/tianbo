@@ -2,6 +2,10 @@ baseURL = 'https://tianboqiu.com/'
 languageCode = 'en-us'
 title = 'Tianbo'
 
+[security]
+  [security.funcs]
+    getenv = ['^HUGO_', '^CI$', '^VERCEL$']
+
 [params]
   name = '邱天博 (Tianbo Qiu)'
   tags = '古法编程 | decaf | Go 学习中'
